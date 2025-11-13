@@ -1,0 +1,44 @@
+// src/utils/helpers.js
+
+import { format, formatDistance } from 'date-fns';
+
+export const formatDate = (date) => {
+  if (!date) return 'N/A';
+  return format(new Date(date), 'MMM dd, yyyy HH:mm:ss');
+};
+
+export const formatRelativeTime = (date) => {
+  if (!date) return 'N/A';
+  return formatDistance(new Date(date), new Date(), { addSuffix: true });
+};
+
+export const formatNumber = (num, decimals = 2) => {
+  if (num === null || num === undefined) return 'N/A';
+  return Number(num).toFixed(decimals);
+};
+
+export const downloadCSV = (blob, filename) => {
+  const url = window.URL.createObjectURL(blob);
+  const link = document.createElement('a');
+  link.href = url;
+  link.download = filename;
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+  window.URL.revokeObjectURL(url);
+};
+
+export const getAlertSeverityColor = (severity) => {
+  const colors = {
+    info: '#2196f3',
+    warning: '#ff9800',
+    critical: '#f44336',
+  };
+  return colors[severity] || colors.warning;
+};
+
+export const truncateText = (text, maxLength = 50) => {
+  if (!text) return '';
+  if (text.length <= maxLength) return text;
+  return text.substring(0, maxLength) + '...';
+};
